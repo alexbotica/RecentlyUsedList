@@ -17,17 +17,7 @@ public class RecentlyUsedList {
 	}
 
 	public int add(String s) {
-
-		// make unique
-		for (int i = 0; i < m_entries.size(); ++i)
-		{
-			if (m_entries.get(i).equalsIgnoreCase(s))
-			{
-				m_entries.remove(i);
-				break;
-			}
-		}
-
+		m_entries.remove(s);
 		m_entries.add(s);
 		return m_entries.lastIndexOf(s);
 	}
