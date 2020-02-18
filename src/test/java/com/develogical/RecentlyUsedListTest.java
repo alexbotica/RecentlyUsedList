@@ -11,8 +11,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.fail;
 
 public class RecentlyUsedListTest {
-
-	private RecentlyUsedList list1 = new RecentlyUsedList();
+	private RecentlyUsedList<Integer> list1 = new RecentlyUsedList();
 
 	@Test
 	public void testEmptyWhenInitialised(){
@@ -20,35 +19,44 @@ public class RecentlyUsedListTest {
 	}
 
 	@Test
-	public void testListNotEmptyWhenPopulted() {
-		assertThat(list1.add("123456789"), equalTo(0));
+	public void testListNotEmptyWhenPopulated() {
+		assertThat(list1.add(123456789), equalTo(0));
 	}
 
-	@Test
-	public void testAddCaseMismatch() {
-		list1.add("555-TREE-REPAIR");
-		list1.add("555-tree-repair");
-		assertThat(list1.size(), equalTo(2));
-	}
+//	@Test
+//	public void testAddCaseMismatch() {
+//		list1.add(555-TREE-REPAIR);
+//		list1.add(555-tree-repair);
+//		assertThat(list1.size(), equalTo(2));
+//	}
 
 	@Test
 	public void testRetrieveItemByIndex(){
-		list1.add("999");
-		assertThat(list1.get(0),equalTo("999"));
+		list1.add(999);
+		assertThat(list1.get(0),equalTo(999));
+	}
+	@Test(expected = IndexOutOfBoundsException.class)
+	public void testNegativeIndexOnGet(){
+		assertThat(list1.get(-1),equalTo(null));
 	}
 
 	@Test(expected = IndexOutOfBoundsException.class)
 	public void testOutOfBoundsOnGetMostRecent()
 	{
-		assertThat(list1.getMostRecent(),equalTo("111"));
+		assertThat(list1.getMostRecent(),equalTo(111));
+	}
+
+	@Test(expected = IndexOutOfBoundsException.class)
+	public void testOutOfBoundsOnGet(){
+		assertThat(list1.get(0),equalTo(null));
 	}
 
 	@Test
 	public void testMostRecentFirst(){
-		list1.add("999");
-		list1.add("111");
+		list1.add(999);
+		list1.add(111);
 		try{
-			assertThat(list1.getMostRecent(),equalTo("111"));
+			assertThat(list1.getMostRecent(),equalTo(111));
 		}catch(Exception e){
 			fail(e.getMessage());
 		}
@@ -56,10 +64,10 @@ public class RecentlyUsedListTest {
 
 	@Test
 	public void checkDuplicateInsertionsMoved(){
-		list1.add("999");
-		list1.add("111");
-		list1.add("999");
+		list1.add(999);
+		list1.add(111);
+		list1.add(999);
 		assertThat(list1.size(),equalTo(2));
-		assertThat(list1.getMostRecent(),equalTo("999"));
+		assertThat(list1.getMostRecent(),equalTo(999));
 	}
 }
